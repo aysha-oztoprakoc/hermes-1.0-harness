@@ -32,9 +32,10 @@ def _execute_hermes(client, query, request_id):
     """
     try:
         # Fix #4: subprocess timeout (600s)
+        # Fix #11: Run from HOME_DIR to inject global AGENTS.md and skills, but point uv to the project dir
         result = subprocess.run(
-            [HERMES_CMD, "run", "hermes", "-z", query],
-            cwd=HERMES_PROJECT_DIR,
+            [HERMES_CMD, "run", "--project", HERMES_PROJECT_DIR, "hermes", "-z", query],
+            cwd=HOME_DIR,
             capture_output=True,
             text=True,
             timeout=600
